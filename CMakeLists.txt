@@ -5,7 +5,7 @@ set(PROJECT_VESRION 0.0.${PATCH_VERSION})
 
 project(helloworld VERSION ${PROJECT_VESRION})
 
-option(WITH_GTEST "Whether to build Boost test" ON)
+option(WITH_GTEST "Whether to build Gtest test" ON)
 
 configure_file(version.h.in version.h)
 
@@ -35,7 +35,6 @@ if(WITH_GTEST)
     set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
     FetchContent_MakeAvailable(googletest)
 
-    find_package(Boost COMPONENTS unit_test_framework REQUIRED)
     add_executable(test_version test_version.cpp)
 
     set_target_properties(test_version PROPERTIES
@@ -56,7 +55,7 @@ if (MSVC)
     target_compile_options(helloworld PRIVATE
         /W4
     )
-    if(WITH_BOOST_TEST)
+    if(WITH_GTEST)
         target_compile_options(test_version PRIVATE
             /W4
         )
@@ -68,7 +67,7 @@ else ()
     target_compile_options(helloworld PRIVATE
         -Wall -Wextra -pedantic -Werror
     )
-    if(WITH_BOOST_TEST)
+    if(WITH_GTEST)
         target_compile_options(test_version PRIVATE
             -Wall -Wextra -pedantic -Werror
         )
